@@ -1,0 +1,18 @@
+<html ng-app="myApp">
+<head>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="js/controllers.js"></script>
+</head>
+<body ng-controller="ChemicalsCtrl">
+
+<input ng-model="search_str" ng-change="find()">
+Results: {{results_count}}
+  <ul>
+    <li ng-repeat="chem in chems">
+      <span>{{chem.cas_no}}</span>
+      <p>{{chem.name}}</p>
+    </li>
+  </ul>
+
+</body>
+</html>
