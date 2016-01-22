@@ -1,10 +1,4 @@
 {
   "name": "Sobrang Bilis na Lookup!",
   "main": "index.html",
-  "dependencies": {
-    "tingodb": "^0.4.2"
-  },
-  "window": {
-    "toolbar": true
-  }
 }
