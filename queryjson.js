@@ -1,18 +1,19 @@
-var db = require("./chem").data;
+var Datastore = require('nedb');
+var db = new Datastore({filename: __dirname + '/db.js', autoload: true});
+
 var _ = require("lodash");
 var LIMIT = 1000;
 
-function find(str) {
-    var search_regex = new RegExp(str, "i");
-    var res = _.filter(db, e=> {
-        var data = e.cas_no + " - " + e.name
-        return data.match(search_regex);
+function find(str, cb) {
+    console.log("received query", str)
+    var r = new RegExp(str, "i");
+    db.find({name: r}, (err, res) => {
+        if (res.length > LIMIT) {
+            cb({records: res.slice(0, LIMIT), truncated: true, count: res.length})
+        } else {
+            cb({records: res, count: res.length});
+        }
     });
-    if (res.length > LIMIT) {
-        return {records: res.slice(0, LIMIT), truncated: true, count: res.length}
-    } else {
-        return {records: res, count: res.length}
-    }
 }
 
 module.exports = find;

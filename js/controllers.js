@@ -1,20 +1,21 @@
-//require('nw.gui').Window.get().showDevTools() ;
-
 var phonecatApp = angular.module('myApp', []);
 
-var finder = require("./queryjson");
-
-phonecatApp.controller('ChemicalsCtrl', function ($scope) {
+phonecatApp.controller('ChemicalsCtrl', function ($scope, $http) {
   $scope.chems = [];
 
   $scope.find = () => {
-      var result = finder($scope.search_str);
+
+    $http.get(`/l?q=${ $scope.search_str}`).then((result) => {
+      result = result.data;
       if (result.truncated) {
           $scope.results_count = `Too many matches (${result.count}). Showing on first 1000 records`;
       } else {
           $scope.results_count = result.count;
       }
       $scope.chems = result.records;
+    });
+
+
   }
 
 });
